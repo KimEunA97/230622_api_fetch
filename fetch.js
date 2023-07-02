@@ -1,26 +1,29 @@
-import express from 'express'
-import fetch from 'node-fetch'
+import express from 'express';
+import fetch from 'node-fetch';
 
 const app = express();
 const port = 3000;
 
-import userKey from './key.js'
-
 app.get('/', (req, res) => {
-
-  res.send('hello world');
-
-  const URL = "https://apis.data.go.kr/1471000/MdcinGrnIdntfcInfoService01/getMdcinGrnIdntfcInfoList01?" + userKey + "&pageNo=1&numOfRows=3&type=xml"
+  const URL = 'https://jsonplaceholder.typicode.com/todos/';
 
   fetch(URL)
     .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.log(error));
+    .then((data) => {
 
-})
+      const title = data.map((item) => item.title);
+      console.log(title)
+
+
+      // 응답 보내기
+      res.send('hello world');
+    })
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send('Error occurred');
+    });
+});
 
 app.listen(port, () => {
-
-  console.log('Servers running');
-
-})
+  console.log(`Server is running on port ${port}`);
+});
